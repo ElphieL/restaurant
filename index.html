@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant</title>
+    <style>
+        :root{
+            --yellow:#e25118d7;
+            --black: #272727;
+        }
+        html{
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-weight: 900;
+            font-size: 10px;
+            color: var(--black);
+            text-shadow: 0 2px 0 rgba(0,0,0,0.07);
+        }
+        *, *:before, *:after{
+            box-sizing: inherit;
+        }
+        body{
+            margin:50px;
+            background-image: linear-gradient(110deg, #f9823d, #47d9cd);
+            min-height: calc(100vh - 100px);
+            background-position: fixed;
+            letter-spacing: -1px;
+            font-size: 15px;
+        }
+        h1, h2, h3, h4, h5, h6{
+            margin:0 0 5px 0;  
+        }
+        button{
+            background: #1bc0dd9f;
+            border: 0;
+            padding: 10px 20px;
+        }
+        img{
+            max-width: 100%;
+        }
+        .wrapper{
+            display: grid;
+            grid-gap: 15px;
+        }
+        .top{
+            display: grid;
+            grid-template-areas: 
+            'hero hero cta1'
+            'hero hero cta2'
+            ;
+            grid-gap: 10px;
+        }
+        .hero{
+            grid-area: hero;
+            min-height: 300px;
+            background:white url(https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260);
+            background-size: cover;
+            background-position: bottom right;
+            padding: 50px;
+            /* display: grid;
+            justify-content: start;
+            align-content: center; */
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            justify-content: center;
+        }
+        .hero>*{
+            background: var(--yellow);
+            padding: 5px;
+        }
+        .cta{
+            background: var(--yellow);
+            display: grid;
+            place-items: center center;
+            align-content: center;
+        }
+        .cta p{
+            margin: 0;
+        }
+        .cta1{
+            grid-area: cta1;
+        }
+        .cta2{
+            grid-area: cta2;
+        }
+        .price{
+            font-size: 50px;
+            font-weight: 200;
+        }
+        .menu ul{
+            display: grid;
+            padding: 0;
+            list-style: none;
+            
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            grid-gap: 10px;
+        }
+        .menu a{
+            background: var(--yellow);
+            display: block;
+            text-decoration: none;
+            text-align: center;
+            text-transform: uppercase;
+            color: var(--black);
+            font-size: 13px;
+            padding: 8px;
+
+        }
+        [aria-controls='menu-list']{
+            display: none;
+        }
+        .features{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            grid-gap: 15px;
+        }
+        .feature{
+            background: white;
+            padding:10px;
+            border: 1px solid white;
+            text-align: center;
+            box-shadow: 0 0 4px rgba(0,0,0,0.1);
+        }
+        .feature .icon{
+            font-size: 30px;
+        }
+        .feature p{
+            color: rgba(0,0,0,0.5);
+        }
+        .about{
+            background: white;
+            display: grid;
+            padding: 50px;
+            grid-template-columns: 300px 1fr;
+            align-items: center;
+            gap: 5px;
+        }
+        .gallery{
+            display: grid;
+            grid-gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        }
+        .gallery h2{
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            grid-gap: 10px;
+            align-items: center;
+        }
+        .gallery h2:before, .gallery h2:after{
+            display: block;
+            content:'';
+            height: 10px;
+            /* background: linear-gradient(to left, var(--yellow), transparent); */
+            background: linear-gradient(to var(--direction, left), var(--yellow), transparent);
+            border-radius: 5px;
+        }
+        .gallery h2:after{
+            /* background: linear-gradient(to right, var(--yellow), transparent); */
+            --direction:right;
+        }
+        .gallery img{
+            width: 100%;
+        }
+        @media (max-width:550px) {
+            .top{
+                grid-template-areas: 
+                'hero hero'
+                'cta1 cta2'
+                ;
+            }
+            .menu{
+                order:-1;
+                perspective: 800px;
+            }
+            [aria-controls='menu-list']{
+                display: block;
+                margin-bottom: 10px;
+            }
+            .menu ul{
+                max-height: 0;
+                overflow: hidden;
+                transform: rotateX(90deg);
+                transition: all 0.5s;
+            }
+            /* ~ to select the next sib */
+            [aria-expanded='true'] ~ ul{
+                display: grid;
+                max-height: 500px;
+                transform:rotateX(0);
+            }
+            [aria-expanded='false'] .close{
+                display: none;
+            }
+            [aria-expanded='true'] .open{
+                display: none;
+            }
+            .about{
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width:140px) {
+            .top{
+                grid-template-areas: 
+                'hero'
+                'cta1'
+                'cta2'
+                ;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="top">
+            <header class="hero">
+                <h1>Enjoy Nice Pasta</h1>
+                <p>Handmade Organic Pasta</p>
+            </header>
+            <div class="cta cta1">
+                <p class="price">$9.99</p>
+                <p>Lasagne</p>
+            </div>
+            <div class="cta cta2">
+                <p class="price">$2.99</p>
+                <p>Ravioli</p>
+            </div>
+        </div>
+        <nav class="menu">
+            <button aria-expanded="false" aria-controls="menu-list">
+                <span class="open">☰</span>
+                <span class="close">x</span>
+                Menu
+            </button>
+            <ul id="menu-list">
+                <li><a href="">Macaroni</a></li>
+                <li><a href="">Spaghetti</a></li>
+                <li><a href="">Linguine</a></li>
+                <li><a href="">Fettuccine</a></li>
+                <li><a href="">Reservations</a></li>
+            </ul>
+        </nav>
+        <section class="features">
+            <div class="feature">
+                <span class="icon">🍲</span>
+                <h3>Penne</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. vel deleniti labore veritatis.</p>
+            </div>
+            <div class="feature">
+                <span class="icon">🍜</span>
+                <h3>Cannelloni</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. vel deleniti labore veritatis.</p>
+            </div>
+            <div class="feature">
+                <span class="icon">🍝</span>
+                <h3>Orzo</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. vel deleniti labore veritatis.</p>
+            </div>
+            <div class="feature">
+                <span class="icon">🍴</span>
+                <h3>Fusilli</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. vel deleniti labore veritatis.</p>
+            </div>
+        </section>
+        <section class="about">
+            <img src="https://images.pexels.com/photos/2204771/pexels-photo-2204771.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" alt="Yummy Pasta" class="about_mockup">
+                <span class="about_details">
+                    <h2>Featured Pasta</h2>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.  
+                    </p>
+                    <p>Rerum sequi perspiciatis aliquam dignissimos dolorum?</p>
+                    <button>Learn More →</button>
+                </span>
+        </section>
+        <section class="gallery">
+            <h2>Instant Grams</h2>
+            <img src="https://source.unsplash.com/random/201x201" alt="">
+            <img src="https://source.unsplash.com/random/202x202" alt="">
+            <img src="https://source.unsplash.com/random/203x203" alt="">
+            <img src="https://source.unsplash.com/random/204x204" alt="">
+            <img src="https://source.unsplash.com/random/205x205" alt="">
+            <img src="https://source.unsplash.com/random/206x206" alt="">
+            <img src="https://source.unsplash.com/random/207x207" alt="">
+            <img src="https://source.unsplash.com/random/207x208" alt="">
+            <img src="https://source.unsplash.com/random/207x209" alt="">
+            <img src="https://source.unsplash.com/random/207x210" alt="">
+        </section>
+    </div>
+    <script>
+        const navButton = document.querySelector('button[aria-expanded]');
+        
+        function toggleNav({target}){
+            const expanded = target.getAttribute('aria-expanded') === 'true' || false;
+            navButton.setAttribute('aria-expanded', !expanded);
+        }
+        navButton.addEventListener('click', toggleNav);
+    </script>
+</body>
+</html>
